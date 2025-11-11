@@ -16,7 +16,7 @@ Proses ini menggunakan metode **Constructor-based Navigation**.
 
 Data dikirim saat pengguna menekan tombol "Lihat Profilku".
 
-1.  **Data Disiapkan:** Kami menyiapkan data yang akan dikirim. Dalam kasus ini, sebuah string `nama`.
+1.  **Data Disiapkan:** data yang akan dikirim. Dalam kasus ini, sebuah string `nama`.
 2.  **Navigasi dan Pengiriman:** Perintah `Navigator.push` digunakan untuk berpindah halaman. Saat memanggil halaman `ProfilePage`, kita memasukkan data (`nama`) ke dalam *constructor* kelas tersebut.
 
     ```dart
