@@ -1,68 +1,62 @@
-# README Proyek H1D023107_Tugas6
+# Proyek Profil Pribadi H1D023107_Tugas6
 
-Proyek ini adalah aplikasi Flutter sederhana yang mendemonstrasikan cara mengambil input dari pengguna melalui form dan mengirimkan (passing) data tersebut ke halaman lain untuk ditampilkan.
+Proyek ini adalah aplikasi profil pribadi yang dibuat dengan Flutter. Aplikasi ini menampilkan identitas, biografi, dan ambisi pemilik profil dengan tampilan UI pastel yang *fresh* dan *cute*.
+
+Proyek ini memenuhi tugas awal dengan memiliki dua file utama di dalam folder `ui`:
+1.  `ui/home_page.dart`: Halaman sambutan yang berfungsi sebagai titik awal navigasi.
+2.  `ui/profile_page.dart`: Halaman dinamis yang menampilkan data profil.
 
 ## Penjelasan Proses Passing Data
 
-Proses *passing data* (pengiriman data) dari halaman form (`form_data.dart`) ke halaman tampilan (`tampil_data.dart`) dilakukan menggunakan metode **Constructor-based Navigation**.
+Meskipun aplikasi ini menampilkan data statis (data profil), proses *passing data* (pengiriman data) tetap didemonstrasikan saat berpindah dari `home_page.dart` ke `profile_page.dart`.
 
-Berikut adalah alur prosesnya:
+Proses ini menggunakan metode **Constructor-based Navigation**.
 
-### 1. Pengiriman Data (dari `form_data.dart`)
+### 1. Pengiriman Data (dari `home_page.dart`)
 
-Data dikirim saat pengguna menekan tombol "Simpan".
+Data dikirim saat pengguna menekan tombol "Lihat Profilku".
 
-1.  **Pengambilan Data:** Data dari `TextField` diambil menggunakan `TextEditingController`.
-    ```dart
-    String nama = _namaController.text;
-    String nim = _nimController.text;
-    int tahunLahir = int.tryParse(_tahunLahirController.text) ?? 0;
-    ```
-2.  **Navigasi dan Pengiriman:** Perintah `Navigator.push` digunakan untuk berpindah halaman. Saat memanggil halaman `TampilData`, kita memasukkan data (`nama`, `nim`, `tahunLahir`) ke dalam *constructor* kelas tersebut.
+1.  **Data Disiapkan:** Kami menyiapkan data yang akan dikirim. Dalam kasus ini, sebuah string `nama`.
+2.  **Navigasi dan Pengiriman:** Perintah `Navigator.push` digunakan untuk berpindah halaman. Saat memanggil halaman `ProfilePage`, kita memasukkan data (`nama`) ke dalam *constructor* kelas tersebut.
+
     ```dart
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TampilData(
-          nama: nama,
-          nim: nim,
-          tahunLahir: tahunLahir,
+        builder: (context) => const ProfilePage(
+          nama: "Isma Fadhilatizzahra",
         ),
       ),
     );
     ```
 
-### 2. Penerimaan Data (di `tampil_data.dart`)
+### 2. Penerimaan Data (di `profile_page.dart`)
 
-Halaman `TampilData` disiapkan untuk menerima data tersebut.
+Halaman `ProfilePage` disiapkan untuk menerima data tersebut.
 
-1.  **Deklarasi Variabel:** Kelas `TampilData` (yang merupakan `StatelessWidget`) mendeklarasikan variabel `final` untuk menyimpan data yang akan diterima.
+1.  **Deklarasi Variabel:** Kelas `ProfilePage` mendeklarasikan variabel `final` untuk "menangkap" data yang akan diterima.
+
     ```dart
-    class TampilData extends StatelessWidget {
+    class ProfilePage extends StatelessWidget 
       final String nama;
-      final String nim;
-      final int tahunLahir;
     ```
-2.  **Constructor:** Sebuah *constructor* dibuat dengan parameter `required` untuk "menangkap" data yang dikirim oleh `Navigator` dari halaman sebelumnya.
+
+2.  **Constructor:** Sebuah *constructor* dibuat dengan parameter `required` untuk menerima data yang dikirim oleh `Navigator` dari halaman sebelumnya.
+
     ```dart
-    const TampilData({
+    const ProfilePage({
       Key? key,
       required this.nama,
-      required this.nim,
-      required this.tahunLahir,
     }) : super(key: key);
     ```
 
 ### 3. Penggunaan Data
 
-Setelah data diterima dan disimpan dalam variabel kelas (`nama`, `nim`, `tahunLahir`), data tersebut siap digunakan di dalam *method* `build` untuk ditampilkan ke pengguna atau diolah lebih lanjut (seperti perhitungan umur).
+Setelah data diterima dan disimpan dalam variabel `nama`, data tersebut siap digunakan di dalam *method* `build` untuk ditampilkan kepada pengguna.
 
 ```dart
-int tahunSekarang = DateTime.now().year;
-int umur = tahunSekarang - tahunLahir;
-
 Text(
-  'Nama saya $nama, NIM $nim, dan umur saya adalah $umur tahun',
-  ...
+  nama,
+  style: Theme.of(context).textTheme.headlineSmall,
+  textAlign: TextAlign.center,
 ),
-```
